@@ -1,0 +1,7 @@
+LOGSPOUT %{SYSLOG5424PRI}%{NONNEGINT:ver}? +(?:%{TIMESTAMP_ISO8601:ts}|-) +(?:%{HOSTNAME:container_id}|-) +(?:%{NOTSPACE:container_name}|-) +(?:%{NOTSPACE:pid}|-) +(?:%{WORD:msgid}|-) +(?:%{SYSLOG5424SD:sd}|-)
+
+LOGSPOUT_MSG %{LOGSPOUT} %{GREEDYDATA:msg}
+
+MULTILINE (?:\s\s|\S*xception|\S*Error:|During|DETAIL|:\s*$|\s*$)
+
+LOGSPOUT_MULTILINE %{LOGSPOUT} %{MULTILINE}

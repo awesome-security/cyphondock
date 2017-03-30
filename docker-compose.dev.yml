@@ -1,0 +1,67 @@
+# Development overrides that will:
+# 
+#    - map container ports to random ports on the host machine
+#
+
+version: '2'
+
+services:
+
+  cadvisor:
+    ports:
+      - "8080"
+
+  celerybeat:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev
+
+  celeryworker:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev
+
+  cyclops:
+    build: ../cyclops
+    volumes:
+      - ../cyclops/src:/usr/src/app/cyclops/src
+      - ./config/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
+    ports:
+      - "3000"
+    links:
+      - cyphon
+    depends_on:
+      - cyphon
+
+  cyphon:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev
+    environment:
+      CYPHON_SUPERUSER: "YES"
+    ports:
+      - "8000"
+
+  kibana:
+    ports:
+      - "5601"
+
+  logstash:
+    ports:
+      - "5044"
+      - "5045"
+      - "5000/udp"
+
+  nginx:
+    ports:
+      - "80"
+      - "443"
+
+  rabbit:
+    ports:
+      - "15672"  # RabbitMQ management plugin
+
+  receiver:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev

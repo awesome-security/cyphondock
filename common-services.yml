@@ -1,0 +1,49 @@
+# Defines development and production services for Cyphon Engine.
+# Expects a config directory to contain customized versions of:
+# 
+#   - base.py
+#   - conf.py
+#   - dev.py
+#   - prod.py
+#
+# Example files can be found in the cyphon.settings package.
+
+version: '2'
+
+services:
+
+  cyphon-dev:
+    build: ../cyphon
+    env_file:
+      - ./config/env/cyphon.env
+    environment:
+      CYPHON_ENV: DEV
+      DJANGO_SETTINGS_MODULE: cyphon.settings.dev
+    volumes:
+      - ../cyphon/cyphon:/usr/src/app/cyphon
+      - ../cyphon/entrypoints:/usr/src/app/entrypoints
+      - ./config/cyphon/custom:/usr/src/app/cyphon/custom
+      - ./config/cyphon/settings:/usr/src/app/cyphon/cyphon/settings
+
+  cyphon-prod:
+    image: dunbar/cyphon:${CYPHON_VER}
+    restart: always
+    env_file:
+      - ./config/env/cyphon.env
+    environment:
+      CYPHON_ENV: PROD
+      DJANGO_SETTINGS_MODULE: cyphon.settings.prod
+    volumes:
+      - ./config/cyphon/custom:/usr/src/app/cyphon/custom
+      - ./config/cyphon/settings:/usr/src/app/cyphon/cyphon/settings
+
+  cyphon-test:
+    image: dunbar/cyphon:${CYPHON_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+    environment:
+      CYPHON_ENV: PROD
+      DJANGO_SETTINGS_MODULE: cyphon.settings.prod
+    volumes:
+      - ./config-COPYME/cyphon/custom:/usr/src/app/cyphon/custom
+      - ./config-COPYME/cyphon/settings:/usr/src/app/cyphon/cyphon/settings

@@ -1,0 +1,177 @@
+# Creates a stack for testing on Travis-CI.
+
+version: '2'
+
+services:
+
+  cadvisor:
+    image: google/cadvisor:${CADVISOR_VER}
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  celerybeat:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    restart: always
+    command: ../entrypoints/run_celerybeat.sh
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  celeryworker:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    restart: always
+    command: ../entrypoints/run_celeryworker.sh
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  cyclops:
+    image: dunbar/cyclops:${CYCLOPS_VER}
+    volumes:
+      - ./config-COPYME/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
+    ports:
+      - "3000"
+    links:
+      - cyphon
+    depends_on:
+      - cyphon
+
+  cyphon:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    ports:
+      - "8000"
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - geoip
+      - mongo
+      - postgres
+    depends_on:
+      - elasticsearch
+      - geoip
+      - mongo
+      - postgres
+
+  elasticsearch:
+    image: elasticsearch:${ELASTICSEARCH_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+
+  geoip:
+    image: dunbar/geoip:${GEOIP_VER}
+
+  kibana:
+    image: kibana:${KIBANA_VER}
+    restart: always
+    environment:
+      LOGSPOUT: ignore  # don't send Kibana's logs to Logspout
+    ports:
+      - "5601:5601"
+    links:
+      - elasticsearch
+    depends_on:
+      - elasticsearch
+
+  logspout:
+    image: gliderlabs/logspout:${LOGSPOUT_VER}
+    restart: always
+    # volumes:
+    #   - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: syslog://logstash:5000
+    links:
+      - logstash
+    depends_on:
+      - logstash
+
+  logstash:
+    image: logstash:${LOGSTASH_VER}
+    restart: always
+    command: logstash -f /etc/logstash/conf.d --config.reload.automatic --log.level error
+    ports:
+      - "5044:5044"
+      - "5045:5045"
+      - "5000:5000/udp"
+    volumes:
+      - ./config-COPYME/logstash/conf:/etc/logstash/conf.d:ro
+      - ./config-COPYME/logstash/patterns:/etc/logstash/patterns:ro
+      - ./config-COPYME/logstash/jvm.options:/etc/logstash/jvm.options:ro
+      - ./config-COPYME/logstash/logstash.yml:/etc/logstash/logstash.yml:ro
+    links:
+      - elasticsearch
+      - rabbit
+
+  mongo:
+    image: mongo:${MONGODB_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+
+  nginx:
+    image: nginx:${NGINX_VER}
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config-COPYME/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /www/static
+    volumes_from:
+      - cyphon
+    links:
+      - cyphon
+    depends_on:
+      - cyphon
+
+  rabbit:
+    image: rabbitmq:${RABBITMQ_VER}
+    restart: always
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+
+  postgres:
+    image: mdillon/postgis:${POSTGRES_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+
+  receiver:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    restart: always
+    command: ../entrypoints/run_receiver.sh
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
