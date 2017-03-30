@@ -65,7 +65,7 @@ services:
       file: common-services.yml
       service: cyphon-test
     environment:
-      FUNCTIONAL_TESTS_ENABLED: true
+      FUNCTIONAL_TESTS_ENABLED: "True"
     ports:
       - "8000"
     volumes_from:
