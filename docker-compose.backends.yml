@@ -1,0 +1,28 @@
+# Creates a minimal stack for local development of Cyphon. It opens
+# ports on your host machine to make backend services accessible through
+# `localhost`.
+
+version: '2'
+
+services:
+
+  elasticsearch:
+    image: elasticsearch:${ELASTICSEARCH_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+    ports:
+      - "9200:9200"
+
+  mongo:
+    image: mongo:${MONGODB_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+    ports:
+      - "27017:27017"
+
+  postgres:
+    image: mdillon/postgis:${POSTGRES_VER}
+    env_file:
+      - ./config-COPYME/env/cyphon.env
+    ports:
+      - "5432:5432"
