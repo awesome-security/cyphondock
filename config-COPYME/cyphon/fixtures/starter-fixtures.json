@@ -116,24 +116,6 @@
   }
 },
 {
-  "model": "appusers.appuser",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$30000$ZG3x6DkNwjP0$rvB0qzAqasj4oyGtzcQLYtbx31JC5crVzvayyFu9o4k=",
-    "is_superuser": true,
-    "email": "admin@example.com",
-    "first_name": "Example",
-    "last_name": "Admin",
-    "is_staff": true,
-    "is_active": true,
-    "company": 1,
-    "use_redaction": true,
-    "push_notification_id": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
   "model": "companies.company",
   "pk": 1,
   "fields": {
