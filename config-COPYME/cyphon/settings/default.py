@@ -29,14 +29,19 @@ LOGGER = logging.getLogger(__name__)
 
 SECRET_KEY = 'this-should-be-a-string-of-random-characters'
 
-
-# HOSTNAME is used to send out an email to new users once an
-# administrator adds them.
-
 HOST_SETTINGS = {
-    'ALLOWED_HOSTS': [],
-    'CORS_ORIGIN_WHITELIST': [],
-    'HOSTNAME': 'localhost',
+    'ALLOWED_HOSTS': [
+        # 'cyphon.example.com',
+        'localhost',
+        'cyphon',
+    ],
+    'CORS_ORIGIN_WHITELIST': [
+        # 'cyclops.example.com',
+        'localhost:8000',
+        'cyclops:3000',
+        'cyphon:8000',
+        'nginx:80',
+    ],
 }
 
 TEST = 'test' in sys.argv
@@ -234,7 +239,6 @@ REQUIREMENTS = os.path.join(os.path.dirname(BASE_DIR),
 
 ALLOWED_HOSTS = HOST_SETTINGS['ALLOWED_HOSTS']
 CORS_ORIGIN_WHITELIST = HOST_SETTINGS['CORS_ORIGIN_WHITELIST']
-HOSTNAME = HOST_SETTINGS['HOSTNAME']
 
 DATABASES = {
     'default': {
@@ -533,7 +537,6 @@ BASE_URL = 'http://localhost:8000'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ['http://localhost:8000']
 
 LOGGING = {
     'version': 1,

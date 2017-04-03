@@ -14,10 +14,20 @@ import sys
 SECRET_KEY = 'this-should-be-a-string-of-random-characters'
 
 HOST_SETTINGS = {
-    'ALLOWED_HOSTS': [],
-    'CORS_ORIGIN_WHITELIST': [],
-    'HOSTNAME': 'localhost',
+    'ALLOWED_HOSTS': [
+        # 'cyphon.example.com',
+        'localhost',
+        'cyphon',
+    ],
+    'CORS_ORIGIN_WHITELIST': [
+        # 'cyclops.example.com',
+        'localhost:8000',
+        'cyclops:3000',
+        'cyphon:8000',
+        'nginx:80',
+    ],
 }
+
 
 TEST = 'test' in sys.argv
 
