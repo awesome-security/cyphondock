@@ -13,6 +13,8 @@ services:
       - "8080:8080"
 
   cyclops:
+    env_file:
+      - ./config/env/cyclops-prod.env
     volumes:
       - ./config/env/cyclops-prod.env:/usr/src/app/cyclops/cyclops.env
 

@@ -22,8 +22,10 @@ services:
       service: cyphon-dev
 
   cyclops:
+    env_file:
+      - ./config-COPYME/env/cyclops-dev.env
     volumes:
-      - ./config/env/cyclops-dev.env:/usr/src/app/cyclops/cyclops.env
+      - ./config-COPYME/env/cyclops-dev.env:/usr/src/app/cyclops/cyclops.env
     ports:
       - "3000"
     links:
