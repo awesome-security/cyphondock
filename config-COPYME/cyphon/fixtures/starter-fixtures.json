@@ -116,14 +116,6 @@
   }
 },
 {
-  "model": "companies.company",
-  "pk": 1,
-  "fields": {
-    "name": "MyCompany",
-    "uuid": "5a0285bc-5981-4fab-b788-665ee810f70a"
-  }
-},
-{
   "model": "contexts.context",
   "pk": 1,
   "fields": {
@@ -413,7 +405,6 @@
   "pk": 25,
   "fields": {
     "container": 2,
-    "company": null,
     "is_shell": false
   }
 },
@@ -422,7 +413,6 @@
   "pk": 12,
   "fields": {
     "container": 3,
-    "company": null,
     "is_shell": false
   }
 },
@@ -431,7 +421,6 @@
   "pk": 18,
   "fields": {
     "container": 8,
-    "company": 1,
     "is_shell": true
   }
 },
@@ -440,7 +429,6 @@
   "pk": 15,
   "fields": {
     "container": 3,
-    "company": 1,
     "is_shell": false
   }
 },
@@ -449,7 +437,6 @@
   "pk": 19,
   "fields": {
     "container": 10,
-    "company": 1,
     "is_shell": true
   }
 },
@@ -458,7 +445,6 @@
   "pk": 17,
   "fields": {
     "container": 7,
-    "company": 1,
     "is_shell": true
   }
 },
@@ -467,7 +453,6 @@
   "pk": 13,
   "fields": {
     "container": 5,
-    "company": 1,
     "is_shell": false
   }
 },
@@ -476,7 +461,6 @@
   "pk": 3,
   "fields": {
     "container": 3,
-    "company": 1,
     "is_shell": false
   }
 },
@@ -485,7 +469,6 @@
   "pk": 36,
   "fields": {
     "container": 4,
-    "company": 1,
     "is_shell": false
   }
 },
@@ -494,7 +477,6 @@
   "pk": 22,
   "fields": {
     "container": 9,
-    "company": 1,
     "is_shell": true
   }
 },
@@ -503,7 +485,6 @@
   "pk": 2,
   "fields": {
     "container": 2,
-    "company": 1,
     "is_shell": true
   }
 },
