@@ -493,7 +493,7 @@
   "pk": 1,
   "fields": {
     "field_name": "content",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -623,7 +623,7 @@
   "pk": 14,
   "fields": {
     "field_name": "message",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -693,7 +693,7 @@
   "pk": 21,
   "fields": {
     "field_name": "subject",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -713,7 +713,7 @@
   "pk": 23,
   "fields": {
     "field_name": "text",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -733,7 +733,7 @@
   "pk": 25,
   "fields": {
     "field_name": "title",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -1073,7 +1073,7 @@
   "pk": 59,
   "fields": {
     "field_name": "status_msg",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
@@ -1093,7 +1093,7 @@
   "pk": 61,
   "fields": {
     "field_name": "info_msg",
-    "field_type": "CharField",
+    "field_type": "TextField",
     "target_type": "Keyword",
     "embedded_doc": null
   }
