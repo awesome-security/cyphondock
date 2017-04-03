@@ -68,7 +68,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      # - mongo
+      - mongo
       - postgres
     depends_on:
       - postgres
