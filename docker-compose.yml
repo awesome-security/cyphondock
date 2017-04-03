@@ -52,8 +52,6 @@ services:
   cyclops:
     image: dunbar/cyclops:${CYCLOPS_VER}
     restart: always
-    volumes:
-      - ./config/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
     links:
       - nginx
     depends_on:

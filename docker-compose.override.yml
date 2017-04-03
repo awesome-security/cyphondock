@@ -12,6 +12,10 @@ services:
     ports:
       - "8080:8080"
 
+  cyclops:
+    volumes:
+      - ./config/env/cyclops-prod.env:/usr/src/app/cyclops/cyclops.env
+
   cyphon:
     volumes:
       - /opt/cyphon/media:/usr/src/app/cyphon/media
