@@ -14,9 +14,9 @@ services:
 
   cyclops:
     env_file:
-      - ./config/env/cyclops-prod.env
+      - ./config/env/cyclops.env
     volumes:
-      - ./config/env/cyclops-prod.env:/usr/src/app/cyclops/cyclops.env
+      - ./config/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
 
   cyphon:
     volumes:

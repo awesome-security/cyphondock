@@ -23,9 +23,9 @@ services:
 
   cyclops:
     env_file:
-      - ./config-COPYME/env/cyclops-dev.env
+      - ./config-COPYME/env/cyclops.env
     volumes:
-      - ./config-COPYME/env/cyclops-dev.env:/usr/src/app/cyclops/cyclops.env
+      - ./config-COPYME/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
     ports:
       - "3000"
     links:
