@@ -112,7 +112,7 @@ services:
   logstash:
     image: logstash:${LOGSTASH_VER}
     restart: always
-    command: logstash -f /etc/logstash/conf.d --config.reload.automatic --log.level error
+    command: logstash -f /etc/logstash/conf.d --config.reload.automatic
     volumes:
       - ./config/logstash/conf:/etc/logstash/conf.d:ro
       - ./config/logstash/patterns:/etc/logstash/patterns:ro
