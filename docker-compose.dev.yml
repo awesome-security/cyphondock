@@ -28,10 +28,6 @@ services:
       - ./config-COPYME/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
     ports:
       - "3000"
-    links:
-      - cyphon
-    depends_on:
-      - cyphon
 
   cyphon:
     extends:
@@ -54,8 +50,12 @@ services:
 
   nginx:
     ports:
-      - "80"
-      - "443"
+      - "80"     # Cyclops
+      - "443"    # Cyclops
+      - "8000"   # Cyphon
+      - "8080"   # cAdvisor
+      - "5601"   # Kibana
+      - "15672"  # RabbitMQ management plugin
 
   rabbit:
     ports:

@@ -7,8 +7,6 @@ services:
   cadvisor:
     image: google/cadvisor:${CADVISOR_VER}
     restart: always
-    ports:
-      - "8080:8080"
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -19,7 +17,6 @@ services:
     extends:
       file: common-services.yml
       service: cyphon-test
-    restart: always
     command: ../entrypoints/run_celerybeat.sh
     volumes_from:
       - geoip
@@ -36,7 +33,6 @@ services:
     extends:
       file: common-services.yml
       service: cyphon-test
-    restart: always
     command: ../entrypoints/run_celeryworker.sh
     volumes_from:
       - geoip
@@ -53,19 +49,17 @@ services:
     image: dunbar/cyclops:${CYCLOPS_VER}
     volumes:
       - ./config-COPYME/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
-    ports:
-      - "3000"
     links:
-      - cyphon
+      - nginx
     depends_on:
-      - cyphon
+      - nginx
 
   cyphon:
     extends:
       file: common-services.yml
       service: cyphon-test
-    ports:
-      - "8000"
+    environment:
+      CYPHON_SUPERUSER: "YES"
     volumes_from:
       - geoip
     links:
@@ -73,62 +67,80 @@ services:
       - geoip
       - mongo
       - postgres
+      - selenium
     depends_on:
       - elasticsearch
       - geoip
       - mongo
       - postgres
+    volumes:
+      - ./config-COPYME/cyphon/fixtures:/usr/src/app/cyphon/fixtures:ro
 
   elasticsearch:
-    image: elasticsearch:${ELASTICSEARCH_VER}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VER}
+    restart: always
     env_file:
       - ./config-COPYME/env/cyphon.env
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+    volumes:
+      - ./config-COPYME/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      # - ./config-COPYME/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      # - ./config-COPYME/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
 
   geoip:
     image: dunbar/geoip:${GEOIP_VER}
 
   kibana:
-    image: kibana:${KIBANA_VER}
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_VER}
     restart: always
+    env_file:
+      - ./config-COPYME/env/cyphon.env
     environment:
       LOGSPOUT: ignore  # don't send Kibana's logs to Logspout
-    ports:
-      - "5601:5601"
     links:
       - elasticsearch
     depends_on:
       - elasticsearch
+    volumes:
+      - ./config-COPYME/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
 
   logspout:
     image: gliderlabs/logspout:${LOGSPOUT_VER}
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    command: syslog://logstash:5000
+    # command: syslog://logstash:5000
     links:
       - logstash
     depends_on:
       - logstash
 
   logstash:
-    image: logstash:${LOGSTASH_VER}
+    image: docker.elastic.co/logstash/logstash:${ELASTIC_VER}
     restart: always
     command: logstash -f /etc/logstash/conf.d --config.reload.automatic --log.level error
     ports:
       - "5044:5044"
       - "5045:5045"
       - "5000:5000/udp"
+      - "elasticsearch:9200:9200"
     volumes:
-      - ./config-COPYME/logstash/conf:/etc/logstash/conf.d:ro
-      - ./config-COPYME/logstash/patterns:/etc/logstash/patterns:ro
-      - ./config-COPYME/logstash/jvm.options:/etc/logstash/jvm.options:ro
-      - ./config-COPYME/logstash/logstash.yml:/etc/logstash/logstash.yml:ro
+      - ./config-COPYME/logstash/pipeline:/etc/logstash/conf.d:ro
+      - ./config-COPYME/logstash/config:/usr/share/logstash/config:ro
+      # - ./config-COPYME/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      # - ./config-COPYME/logstash/config/log4j2.options:/usr/share/logstash/config/log4j2.options:ro
+      - ./config-COPYME/logstash/patterns:/usr/share/logstash/patterns:ro
+      # - ./config-COPYME/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      # - ./config-COPYME/logstash/jvm.options:/usr/share/logstash/config/jvm.options:ro
     links:
       - elasticsearch
       - rabbit
 
   mongo:
     image: mongo:${MONGODB_VER}
+    restart: always
     env_file:
       - ./config-COPYME/env/cyphon.env
 
@@ -136,8 +148,12 @@ services:
     image: nginx:${NGINX_VER}
     restart: always
     ports:
-      - "80:80"
+      - "80:80"        # Cyclops
       - "443:443"
+      - "5601:5601"    # Kibana
+      - "8000:8000"    # Cyphon
+      - "8080:8080"    # cAdvisor
+      - "15672:15672"  # RabbitMQ management plugin
     volumes:
       - ./config-COPYME/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - /www/static
@@ -145,8 +161,10 @@ services:
       - cyphon
     links:
       - cyphon
+      - selenium
     depends_on:
       - cyphon
+      - selenium
 
   rabbit:
     image: rabbitmq:${RABBITMQ_VER}
@@ -156,6 +174,7 @@ services:
 
   postgres:
     image: mdillon/postgis:${POSTGRES_VER}
+    restart: always
     env_file:
       - ./config-COPYME/env/cyphon.env
 
@@ -163,7 +182,6 @@ services:
     extends:
       file: common-services.yml
       service: cyphon-test
-    restart: always
     command: ../entrypoints/run_receiver.sh
     volumes_from:
       - geoip
@@ -175,3 +193,6 @@ services:
     depends_on:
       - cyphon
       - rabbit
+
+  selenium:
+    image: selenium/standalone-chrome:${SELENIUM_VER}

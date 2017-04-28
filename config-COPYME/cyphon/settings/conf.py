@@ -168,7 +168,7 @@ NOTIFICATIONS = {
 }
 
 POSTGRES = {
-    'NAME': os.getenv('POSTGRES_DB', 'postgres'),
+    'NAME': os.getenv('POSTGRES_DB', 'cyphon'),
     'USER': os.getenv('POSTGRES_USER', 'postgres'),
     'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
     'HOST': os.getenv('POSTGRES_HOST', 'postgres'),  # e.g., 'localhost'

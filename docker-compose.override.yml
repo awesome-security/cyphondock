@@ -8,10 +8,6 @@ version: '2'
 
 services:
 
-  cadvisor:
-    ports:
-      - "8080:8080"
-
   cyclops:
     env_file:
       - ./config/env/cyclops.env
@@ -27,10 +23,6 @@ services:
     volumes:
       - /opt/cyphon/data/elasticsearch:/usr/share/elasticsearch/data
 
-  kibana:
-    ports:
-      - "5601:5601"
-
   logstash:
     ports:
       - "5044:5044"
@@ -43,13 +35,13 @@ services:
 
   nginx:
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80"        # Cyclops
+      - "443:443"      # Cyclops
+      - "8000:8000"    # Cyphon
+      - "8080:8080"    # cAdvisor
+      - "5601:5601"    # Kibana
+      - "15672:15672"  # RabbitMQ management plugin
 
   postgres:
     volumes:
       - /opt/cyphon/data/postgresql:/var/lib/postgresql/data
-
-  rabbit:
-    ports:
-      - "15672:15672"  # RabbitMQ management plugin

@@ -7,7 +7,7 @@ version: '2'
 services:
 
   elasticsearch:
-    image: elasticsearch:${ELASTICSEARCH_VER}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VER}
     env_file:
       - ./config-COPYME/env/cyphon.env
     ports:

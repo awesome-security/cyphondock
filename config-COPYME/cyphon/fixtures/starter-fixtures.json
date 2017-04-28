@@ -1,28 +1,28 @@
 [
 {
-  "model": "database.constance",
-  "pk": 1,
-  "fields": {
-    "key": "PUSH_NOTIFICATIONS_ENABLED",
-    "value": true
-  }
-},
-{
-  "model": "funnels.funnel",
-  "pk": 1,
-  "fields": {
-    "pipe": 1,
-    "bottle": 5,
-    "condenser": 5
-  }
-},
-{
-  "model": "funnels.funnel",
+  "model": "reservoirs.reservoir",
   "pk": 2,
   "fields": {
-    "pipe": 2,
-    "bottle": 5,
-    "condenser": 5
+    "name": "twitter",
+    "enabled": false
+  }
+},
+{
+  "model": "reservoirs.gateway",
+  "pk": 1,
+  "fields": {
+    "reservoir": ["twitter"],
+    "task": "ADHOC_SRCH",
+    "pipe": 1
+  }
+},
+{
+  "model": "reservoirs.gateway",
+  "pk": 2,
+  "fields": {
+    "reservoir": ["twitter"],
+    "task": "BKGD_SRCH",
+    "pipe": 2
   }
 },
 {
@@ -32,7 +32,7 @@
     "api_module": "handlers",
     "api_class": "SearchAPI",
     "visa_required": true,
-    "platform": 2
+    "platform": ["twitter"]
   }
 },
 {
@@ -42,7 +42,7 @@
     "api_module": "handlers",
     "api_class": "PublicStreamsAPI",
     "visa_required": false,
-    "platform": 2
+    "platform": ["twitter"]
   }
 },
 {
@@ -90,29 +90,21 @@
   }
 },
 {
-  "model": "reservoirs.reservoir",
-  "pk": 2,
-  "fields": {
-    "name": "twitter",
-    "enabled": false
-  }
-},
-{
-  "model": "reservoirs.gateway",
+  "model": "funnels.funnel",
   "pk": 1,
   "fields": {
-    "reservoir": 2,
-    "task": "ADHOC_SRCH",
-    "pipe": 1
+    "pipe": 1,
+    "bottle": 5,
+    "condenser": 5
   }
 },
 {
-  "model": "reservoirs.gateway",
+  "model": "funnels.funnel",
   "pk": 2,
   "fields": {
-    "reservoir": 2,
-    "task": "BKGD_SRCH",
-    "pipe": 2
+    "pipe": 2,
+    "bottle": 5,
+    "condenser": 5
   }
 },
 {

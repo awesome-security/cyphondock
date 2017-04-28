@@ -45,6 +45,13 @@ services:
     environment:
       CYPHON_ENV: PROD
       DJANGO_SETTINGS_MODULE: cyphon.settings.prod
+      DJANGO_LIVE_TEST_SERVER_ADDRESS: cyphon:8081-8100
+      FUNCTIONAL_TESTS_ENABLED: ${FUNCTIONAL_TESTS_ENABLED}
+      FUNCTIONAL_TESTS_DRIVER: docker
+      FUNCTIONAL_TESTS_HOST: selenium
+      FUNCTIONAL_TESTS_PORT: 4444
+      FUNCTIONAL_TESTS_BROWSER: chrome
     volumes:
       - ./config-COPYME/cyphon/custom:/usr/src/app/cyphon/custom
       - ./config-COPYME/cyphon/settings:/usr/src/app/cyphon/cyphon/settings
+      - ./config-COPYME/cyphon/fixtures:/usr/src/app/cyphon/fixtures

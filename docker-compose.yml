@@ -75,10 +75,10 @@ services:
 
   # Elasticsearch storage backend
   elasticsearch:
-    image: elasticsearch:${ELASTICSEARCH_VER}
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VER}
     restart: always
     volumes:
-      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/elasticsearch:/usr/share/elasticsearch/config:ro
 
   # GeoLite2 databases for geolocating IP addresses
   geoip:
@@ -87,7 +87,7 @@ services:
 
   # Kibana dashboard for Elasticsearch data
   kibana:
-    image: kibana:${KIBANA_VER}
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_VER}
     restart: always
     environment:
       LOGSPOUT: ignore  # don't send Kibana's logs to Logspout
@@ -95,6 +95,8 @@ services:
       - elasticsearch
     depends_on:
       - elasticsearch
+    volumes:
+      - ./config/kibana:/usr/share/kibana/config:ro
 
   # Logspout to collect container logs
   logspout:
@@ -110,14 +112,15 @@ services:
 
   # Logstash log ingestion
   logstash:
-    image: logstash:${LOGSTASH_VER}
+    image: docker.elastic.co/logstash/logstash:${ELASTIC_VER}
     restart: always
     command: logstash -f /etc/logstash/conf.d --config.reload.automatic
     volumes:
+      - ./config/logstash:/etc/logstash/config:ro
       - ./config/logstash/conf:/etc/logstash/conf.d:ro
-      - ./config/logstash/patterns:/etc/logstash/patterns:ro
-      - ./config/logstash/jvm.options:/etc/logstash/jvm.options:ro
-      - ./config/logstash/logstash.yml:/etc/logstash/logstash.yml:ro
+      # - ./config/logstash/patterns:/etc/logstash/patterns:ro
+      # - ./config/logstash/jvm.options:/etc/logstash/jvm.options:ro
+      # - ./config/logstash/logstash.yml:/etc/logstash/logstash.yml:ro
     links:
       - elasticsearch
       - rabbit
