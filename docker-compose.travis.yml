@@ -79,15 +79,13 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VER}
     restart: always
-    env_file:
-      - ./config-COPYME/env/cyphon.env
     environment:
       - http.host=0.0.0.0
       - transport.host=127.0.0.1
     volumes:
       - ./config-COPYME/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-      # - ./config-COPYME/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
-      # - ./config-COPYME/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
+      - ./config-COPYME/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      - ./config-COPYME/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
 
   geoip:
     image: dunbar/geoip:${GEOIP_VER}
@@ -111,7 +109,7 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    # command: syslog://logstash:5000
+    command: syslog://logstash:5000
     links:
       - logstash
     depends_on:
@@ -121,19 +119,16 @@ services:
     image: docker.elastic.co/logstash/logstash:${ELASTIC_VER}
     restart: always
     command: logstash -f /etc/logstash/conf.d --config.reload.automatic --log.level error
+    expose:
+      - "5000/udp"
     ports:
       - "5044:5044"
       - "5045:5045"
-      - "5000:5000/udp"
       - "elasticsearch:9200:9200"
     volumes:
       - ./config-COPYME/logstash/pipeline:/etc/logstash/conf.d:ro
       - ./config-COPYME/logstash/config:/usr/share/logstash/config:ro
-      # - ./config-COPYME/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      # - ./config-COPYME/logstash/config/log4j2.options:/usr/share/logstash/config/log4j2.options:ro
       - ./config-COPYME/logstash/patterns:/usr/share/logstash/patterns:ro
-      # - ./config-COPYME/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      # - ./config-COPYME/logstash/jvm.options:/usr/share/logstash/config/jvm.options:ro
     links:
       - elasticsearch
       - rabbit
@@ -149,7 +144,7 @@ services:
     restart: always
     ports:
       - "80:80"        # Cyclops
-      - "443:443"
+      - "443:443"      # Cyclops
       - "5601:5601"    # Kibana
       - "8000:8000"    # Cyphon
       - "8080:8080"    # cAdvisor
@@ -160,7 +155,10 @@ services:
     volumes_from:
       - cyphon
     links:
+      - cadvisor
       - cyphon
+      - kibana
+      - rabbit
       - selenium
     depends_on:
       - cyphon

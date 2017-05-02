@@ -77,8 +77,13 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VER}
     restart: always
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
     volumes:
-      - ./config/elasticsearch:/usr/share/elasticsearch/config:ro
+      - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./config/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
+      - ./config/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
 
   # GeoLite2 databases for geolocating IP addresses
   geoip:
@@ -96,12 +101,14 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - ./config/kibana:/usr/share/kibana/config:ro
+      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
 
   # Logspout to collect container logs
   logspout:
     image: gliderlabs/logspout:${LOGSPOUT_VER}
     restart: always
+    expose:
+      - "5000/udp"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     command: syslog://logstash:5000
@@ -114,14 +121,15 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:${ELASTIC_VER}
     restart: always
-    command: logstash -f /etc/logstash/conf.d --config.reload.automatic
+    command: logstash -f /usr/share/logstash/pipeline --config.reload.automatic
     volumes:
-      - ./config/logstash:/etc/logstash/config:ro
-      - ./config/logstash/conf:/etc/logstash/conf.d:ro
-      # - ./config/logstash/patterns:/etc/logstash/patterns:ro
-      # - ./config/logstash/jvm.options:/etc/logstash/jvm.options:ro
-      # - ./config/logstash/logstash.yml:/etc/logstash/logstash.yml:ro
+      - ./config/logstash/config:/usr/share/logstash/config:ro
+      - ./config/logstash/patterns:/usr/share/logstash/patterns:ro
+      - ./config/logstash/pipeline:/usr/share/logstash/pipeline:ro
     links:
+      - elasticsearch
+      - rabbit
+    depends_on:
       - elasticsearch
       - rabbit
 
@@ -140,7 +148,10 @@ services:
     volumes_from:
       - cyphon
     links:
+      - cadvisor
       - cyphon
+      - kibana
+      - rabbit
     depends_on:
       - cyphon
 

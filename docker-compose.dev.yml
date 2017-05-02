@@ -35,6 +35,7 @@ services:
       service: cyphon-dev
     environment:
       CYPHON_SUPERUSER: "YES"
+      LOAD_EXAMPLE_FIXTURES: "YES"
     ports:
       - "8000"
 
@@ -46,7 +47,6 @@ services:
     ports:
       - "5044"
       - "5045"
-      - "5000/udp"
 
   nginx:
     ports:

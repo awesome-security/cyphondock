@@ -18,7 +18,7 @@ script:
   # Make sure starter fixtures can load successfully and all tests pass.
   # Run tests with --keepdb to avoid OperationalError during teardown, in case
   # any db connections are still open from threads in TransactionTestCases.
-  - docker exec cyphondock_cyphon_1 python manage.py loaddata fixtures/starter-fixtures-nk.json && docker exec cyphondock_cyphon_1 python manage.py test --noinput --keepdb -v 2
+  - docker exec cyphondock_cyphon_1 python manage.py loaddata fixtures/starter-fixtures.json && docker exec cyphondock_cyphon_1 python manage.py test --noinput --keepdb -v 2
 
 after_script:
   - docker-compose -f docker-compose.travis.yml down
