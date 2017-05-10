@@ -60,6 +60,11 @@ CODEBOOKS = {
     'CODENAME_SUFFIX': '**',  # suffix for displayed CodeNames
 }
 
+DATASIFTER = {
+    'DEFAULT_MUNGER': 'default',
+    'DEFAULT_MUNGER_ENABLED': True,
+}
+
 DISTILLERIES = {
 
     # dictionary key for recording the date record was saved
@@ -142,13 +147,13 @@ JIRA = {
 }
 
 LOGSIFTER = {
-    'DEFAULT_LOG_MUNGER': 'default_log',
-    'DEFAULT_LOG_CHUTE_ENABLED': True,
+    'DEFAULT_MUNGER': 'default',
+    'DEFAULT_MUNGER_ENABLED': True,
 }
 
 MAILSIFTER = {
-    'DEFAULT_MAIL_MUNGER': 'default_mail',
-    'DEFAULT_MAIL_CHUTE_ENABLED': True,
+    'DEFAULT_MUNGER': 'default',
+    'DEFAULT_MUNGER_ENABLED': True,
     'MAIL_COLLECTION': 'postgresql.django_cyphon.django_mailbox_message',
     'EMAIL_CONTENT_PREFERENCES': ('text/plain', 'text/html'),
     'ALLOWED_EMAIL_ATTACHMENTS': ('text/plain', 'application/pdf', 'image/jpeg', 'image/png'),
