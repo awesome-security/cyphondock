@@ -1,0 +1,1 @@
+SNORT (?<ts>(.*?))\t(?<host>(.*?))\t(?<signature_id>(.*?))\t(?<signature>(.*?))\t(?<category>(.*?))\t(?<priority>(.*?))\t(?<protocol>(.*?))\t(?<source_ip>(.*?))\t(?<source_port>(.*?))\t(?<destination_ip>(.*?))\t(?<destination_port>(.*?))
