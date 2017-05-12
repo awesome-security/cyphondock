@@ -100,7 +100,9 @@
   "model": "plumbers.plumber",
   "fields": {
     "name": "Twitter",
-    "endpoints": ["twitter"],
+    "endpoints": [
+      ["twitter", "PublicStreamsAPI"]
+    ],
     "passport": ["Twitter"]
   }
 },
