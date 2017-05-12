@@ -28,9 +28,9 @@ services:
       - "5044:5044"
       - "5045:5045"  # you can configure Filebeat to send Nessus files here
 
-  mongo:
-    volumes:
-      - /opt/cyphon/data/mongodb:/data/db
+  # mongo:
+  #   volumes:
+  #     - /opt/cyphon/data/mongodb:/data/db
 
   nginx:
     ports:

@@ -23,7 +23,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
       - rabbit
     depends_on:
@@ -41,7 +41,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
       - rabbit
     depends_on:
@@ -68,7 +68,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
     depends_on:
       - postgres
@@ -134,9 +134,9 @@ services:
       - rabbit
 
   # MongoDB storage backend
-  mongo:
-    image: mongo:${MONGODB_VER}
-    restart: always
+  # mongo:
+  #   image: mongo:${MONGODB_VER}
+  #   restart: always
 
   # Nginx web server
   nginx:
@@ -180,7 +180,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
       - rabbit
     depends_on:
