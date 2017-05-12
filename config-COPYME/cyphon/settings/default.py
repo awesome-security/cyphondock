@@ -202,15 +202,13 @@ PRIVATE_FIELDS = [
 ]
 
 RABBITMQ = {
-    'EXCHANGE': 'cyphon',
-    'EXCHANGE_TYPE': 'direct',
-    'ROUTING_KEY': 'logstash',
-    'QUEUE_NAME': 'logstash',
-    'DURABLE': True,
     'HOST': os.getenv('RABBITMQ_DEFAULT_HOST', 'rabbit'),
     'VHOST': os.getenv('RABBITMQ_DEFAULT_VHOST', 'cyphon'),
     'USERNAME': os.getenv('RABBITMQ_DEFAULT_USER', 'guest'),
     'PASSWORD': os.getenv('RABBITMQ_DEFAULT_PASS', 'guest'),
+    'EXCHANGE': 'cyphon',
+    'EXCHANGE_TYPE': 'direct',
+    'DURABLE': True,
 }
 
 SAUCELABS = {
