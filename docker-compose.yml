@@ -85,6 +85,17 @@ services:
       - ./config/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
       - ./config/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
 
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${ELASTIC_VER}
+    restart: always
+    links:
+      - logstash
+    depends_on:
+      - logstash
+    volumes:
+      - ./config/beats/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./log:/var/log
+
   # GeoLite2 databases for geolocating IP addresses
   geoip:
     image: dunbar/geoip
