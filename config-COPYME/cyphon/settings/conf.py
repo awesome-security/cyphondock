@@ -78,7 +78,7 @@ DISTILLERIES = {
     'RAW_DATA_KEY': '_raw_data',
 
     # dictionary key for adding a label to a document
-    'LABEL_KEY':  '_metadata',
+    'LABEL_KEY': '_metadata',
 
     # dictionary key for saving the name of the backend where the raw data is stored
     'BACKEND_KEY': 'backend',
