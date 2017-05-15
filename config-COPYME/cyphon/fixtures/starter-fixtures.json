@@ -3943,7 +3943,7 @@
 {
   "model": "monitors.monitor",
   "fields": {
-    "name": "dns",
+    "name": "intel",
     "enabled": true,
     "time_interval": 1,
     "time_unit": "d",
@@ -3952,9 +3952,10 @@
     "alert_level": "HIGH",
     "groups": [],
     "distilleries": [
-      ["elasticsearch", "cyphon", "snort"]
+      ["elasticsearch", "cyphon", "intel"]
     ],
-    "created_date": "2017-05-15 08:30:00.000000+00:00"
+    "created_date": "2017-05-15 08:30:00.000000+00:00",
+    "last_updated": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
@@ -3971,7 +3972,8 @@
     "distilleries": [
       ["elasticsearch", "cyphon", "snort"]
     ],
-    "created_date": "2017-05-15 08:30:00.000000+00:00"
+    "created_date": "2017-05-15 08:30:00.000000+00:00",
+    "last_updated": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
@@ -3985,6 +3987,7 @@
 {
   "model": "followees.legalname",
   "fields": {
+    "followee": ["Cyphon"],
     "first": "Cyphon",
     "middle": "",
     "last": "Project"
@@ -4024,7 +4027,9 @@
       "followee"
     ],
     "object_id": 1,
-    "enabled": true
+    "enabled": true,
+    "date_created": "2017-05-15 08:30:00.000000+00:00",
+    "last_used": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
@@ -4035,7 +4040,9 @@
       "location"
     ],
     "object_id": 1,
-    "enabled": true
+    "enabled": true,
+    "date_created": "2017-05-15 08:30:00.000000+00:00",
+    "last_used": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
@@ -4046,7 +4053,9 @@
       "searchterm"
     ],
     "object_id": 1,
-    "enabled": true
+    "enabled": true,
+    "date_created": "2017-05-15 08:30:00.000000+00:00",
+    "last_used": "2017-05-15 08:30:00.000000+00:00"
   }
 }
 ]
