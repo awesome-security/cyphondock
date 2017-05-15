@@ -28,7 +28,6 @@ HOST_SETTINGS = {
     ],
 }
 
-
 TEST = 'test' in sys.argv
 
 FUNCTIONAL_TESTS = {
