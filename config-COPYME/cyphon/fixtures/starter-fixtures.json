@@ -3953,7 +3953,8 @@
     "groups": [],
     "distilleries": [
       ["elasticsearch", "cyphon", "snort"]
-    ]
+    ],
+    "created_date": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
@@ -3969,7 +3970,8 @@
     "groups": [],
     "distilleries": [
       ["elasticsearch", "cyphon", "snort"]
-    ]
+    ],
+    "created_date": "2017-05-15 08:30:00.000000+00:00"
   }
 },
 {
