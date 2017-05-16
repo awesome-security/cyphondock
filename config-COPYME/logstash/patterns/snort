@@ -1,1 +1,1 @@
-SNORT (?<ts>(.*?))\t(?<host>(.*?))\t(?<signature_id>(.*?))\t(?<signature>(.*?))\t(?<category>(.*?))\t(?<priority>(.*?))\t(?<protocol>(.*?))\t(?<source_ip>(.*?))\t(?<source_port>(.*?))\t(?<destination_ip>(.*?))\t(?<destination_port>(.*?))
+SNORT (?<ts>^.*\d{2}:\d{2}:\d{2})\s(?<host>.*?)\s\[(?<signature_id>.*?)\]\s(?<signature>[^[]*)\s\[.*?\]\s\[Classification:\s(?<classification>.*?)\]\s\[Priority:\s(?<priority>.*?)\]:\s{(?<protocol>.*?)}\s(?<source_ip>.*?):(?<sporce_port>.*?)\s->\s(?<destination_ip>.*?):(?<destimation_port>.*)
