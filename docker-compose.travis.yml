@@ -176,11 +176,43 @@ services:
     env_file:
       - ./config-COPYME/env/cyphon.env
 
-  receiver:
+  logchutes:
     extends:
       file: common-services.yml
       service: cyphon-test
-    command: ../entrypoints/run_receiver.sh
+    command: ../entrypoints/run_receiver.sh logchutes
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  monitors:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    command: ../entrypoints/run_receiver.sh monitors
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  watchdogs:
+    extends:
+      file: common-services.yml
+      service: cyphon-test
+    command: ../entrypoints/run_receiver.sh watchdogs
     volumes_from:
       - geoip
     links:

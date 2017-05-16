@@ -23,7 +23,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
       - rabbit
     depends_on:
@@ -41,7 +41,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
       - rabbit
     depends_on:
@@ -68,7 +68,7 @@ services:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
       - postgres
     depends_on:
       - postgres
@@ -84,6 +84,17 @@ services:
       - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ./config/elasticsearch/jvm.options:/usr/share/elasticsearch/config/jvm.options:ro
       - ./config/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${ELASTIC_VER}
+    restart: always
+    links:
+      - logstash
+    depends_on:
+      - logstash
+    volumes:
+      - ./config/beats/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./log:/var/log
 
   # GeoLite2 databases for geolocating IP addresses
   geoip:
@@ -134,9 +145,9 @@ services:
       - rabbit
 
   # MongoDB storage backend
-  mongo:
-    image: mongo:${MONGODB_VER}
-    restart: always
+  # mongo:
+  #   image: mongo:${MONGODB_VER}
+  #   restart: always
 
   # Nginx web server
   nginx:
@@ -170,17 +181,51 @@ services:
       - ./config/env/cyphon.env
 
   # RabbitMQ queue consumer for Cyphon
-  receiver:
+  logchutes:
     extends:
       file: common-services.yml
       service: cyphon-prod
     restart: always
-    command: ../entrypoints/run_receiver.sh
+    command: ../entrypoints/run_receiver.sh logchutes
     volumes_from:
       - geoip
     links:
       - elasticsearch
-      - mongo
+      # - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  monitors:
+    extends:
+      file: common-services.yml
+      service: cyphon-prod
+    restart: always
+    command: ../entrypoints/run_receiver.sh monitors
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      # - mongo
+      - postgres
+      - rabbit
+    depends_on:
+      - cyphon
+      - rabbit
+
+  watchdogs:
+    extends:
+      file: common-services.yml
+      service: cyphon-prod
+    restart: always
+    command: ../entrypoints/run_receiver.sh watchdogs
+    volumes_from:
+      - geoip
+    links:
+      - elasticsearch
+      # - mongo
       - postgres
       - rabbit
     depends_on:

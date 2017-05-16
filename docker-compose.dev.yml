@@ -61,7 +61,17 @@ services:
     ports:
       - "15672"  # RabbitMQ management plugin
 
-  receiver:
+  logchutes:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev
+
+  monitors:
+    extends:
+      file: common-services.yml
+      service: cyphon-dev
+
+  watchdogs:
     extends:
       file: common-services.yml
       service: cyphon-dev
