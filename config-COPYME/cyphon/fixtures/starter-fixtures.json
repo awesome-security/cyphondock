@@ -668,6 +668,15 @@
 {
   "model": "bottles.bottlefield",
   "fields": {
+    "field_name": "classification",
+    "field_type": "CharField",
+    "target_type": "Keyword",
+    "embedded_doc": null
+  }
+},
+{
+  "model": "bottles.bottlefield",
+  "fields": {
     "field_name": "client",
     "field_type": "CharField",
     "target_type": null,
@@ -912,6 +921,15 @@
   "model": "bottles.bottlefield",
   "fields": {
     "field_name": "fuid",
+    "field_type": "CharField",
+    "target_type": null,
+    "embedded_doc": null
+  }
+},
+{
+  "model": "bottles.bottlefield",
+  "fields": {
+    "field_name": "generator_id",
     "field_type": "CharField",
     "target_type": null,
     "embedded_doc": null
@@ -1995,7 +2013,7 @@
     "fields": [
       ["city_name"],
       ["continent_code"],
-      ["coordinates"],
+      ["location"],
       ["country_code2"],
       ["country_name"],
       ["dma_code"],
@@ -2270,10 +2288,11 @@
     "name": "snort",
     "fields": [
       ["@timestamp"],
-      ["category"],
+      ["classification"],
       ["destination_ip"],
       ["destination_port"],
       ["dst_geoip"],
+      ["generator_id"],
       ["host"],
       ["priority"],
       ["protocol"],
@@ -2709,9 +2728,9 @@
   "fields": {
     "container": ["snort"],
     "author": "host",
-    "title": "signature",
-    "content": "signature_id",
-    "location": "_metadata.source_ip_location",
+    "title": "classification",
+    "content": "signature",
+    "location": "src_geoip.location",
     "location_format": "LNG/LAT",
     "datetime": "sys_timestamp",
     "date_string": "",
