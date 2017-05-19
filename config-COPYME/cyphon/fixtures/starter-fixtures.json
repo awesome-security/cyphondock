@@ -2013,7 +2013,7 @@
     "fields": [
       ["city_name"],
       ["continent_code"],
-      ["coordinates"],
+      ["location"],
       ["country_code2"],
       ["country_name"],
       ["dma_code"],
@@ -2728,9 +2728,9 @@
   "fields": {
     "container": ["snort"],
     "author": "host",
-    "title": "signature",
-    "content": "signature_id",
-    "location": "_metadata.source_ip_location",
+    "title": "classification",
+    "content": "signature",
+    "location": "src_geoip.location",
     "location_format": "LNG/LAT",
     "datetime": "sys_timestamp",
     "date_string": "",
