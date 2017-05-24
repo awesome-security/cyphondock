@@ -93,7 +93,7 @@ services:
     depends_on:
       - logstash
     volumes:
-      - ./config/beats/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./config/beats/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:rw
       - ./log:/var/log
 
   # GeoLite2 databases for geolocating IP addresses
