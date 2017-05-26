@@ -912,7 +912,7 @@
   "model": "bottles.bottlefield",
   "fields": {
     "field_name": "from",
-    "field_type": "EmailField",
+    "field_type": "CharField",
     "target_type": "Account",
     "embedded_doc": null
   }
