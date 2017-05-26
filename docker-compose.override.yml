@@ -14,11 +14,6 @@ services:
     volumes:
       - ./config/env/cyclops.env:/usr/src/app/cyclops/cyclops.env
 
-  cyphon:
-    volumes:
-      - /opt/cyphon/media:/usr/src/app/cyphon/media
-      - /opt/cyphon/keys:/usr/src/app/cyphon/keys
-
   elasticsearch:
     volumes:
       - /opt/cyphon/data/elasticsearch:/usr/share/elasticsearch/data

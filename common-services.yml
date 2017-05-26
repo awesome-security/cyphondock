@@ -35,6 +35,8 @@ services:
       CYPHON_ENV: PROD
       DJANGO_SETTINGS_MODULE: cyphon.settings.prod
     volumes:
+      - /opt/cyphon/media:/usr/src/app/media
+      - /opt/cyphon/keys:/usr/src/app/keys
       - ./config/cyphon/custom:/usr/src/app/cyphon/custom
       - ./config/cyphon/settings:/usr/src/app/cyphon/cyphon/settings
 
