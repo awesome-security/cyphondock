@@ -2,15 +2,15 @@ version: '2'
 
 services:
 
-  # cAdvisor dashboard for container metrics
-  cadvisor:
-    image: google/cadvisor:${CADVISOR_VER}
-    restart: always
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+  # # cAdvisor dashboard for container metrics
+  # cadvisor:
+  #   image: google/cadvisor:${CADVISOR_VER}
+  #   restart: always
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
 
   # Celery beat for Cyphon
   celerybeat:
@@ -144,7 +144,7 @@ services:
       - elasticsearch
       - rabbit
 
-  # MongoDB storage backend
+  # # MongoDB storage backend
   # mongo:
   #   image: mongo:${MONGODB_VER}
   #   restart: always
@@ -159,7 +159,7 @@ services:
     volumes_from:
       - cyphon
     links:
-      - cadvisor
+      # - cadvisor
       - cyphon
       - kibana
       - rabbit

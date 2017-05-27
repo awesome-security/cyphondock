@@ -4,14 +4,14 @@ version: '2'
 
 services:
 
-  cadvisor:
-    image: google/cadvisor:${CADVISOR_VER}
-    restart: always
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+  # cadvisor:
+  #   image: google/cadvisor:${CADVISOR_VER}
+  #   restart: always
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:rw
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
 
   celerybeat:
     extends:
@@ -147,7 +147,7 @@ services:
       - "443:443"      # Cyclops
       - "5601:5601"    # Kibana
       - "8000:8000"    # Cyphon
-      - "8080:8080"    # cAdvisor
+      # - "8080:8080"    # cAdvisor
       - "15672:15672"  # RabbitMQ management plugin
     volumes:
       - ./config-COPYME/nginx/nginx.conf:/etc/nginx/nginx.conf:ro

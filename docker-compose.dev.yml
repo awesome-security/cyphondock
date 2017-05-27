@@ -7,9 +7,9 @@ version: '2'
 
 services:
 
-  cadvisor:
-    ports:
-      - "8080"
+  # cadvisor:
+  #   ports:
+  #     - "8080"
 
   celerybeat:
     extends:
@@ -53,7 +53,7 @@ services:
       - "80"     # Cyclops
       - "443"    # Cyclops
       - "8000"   # Cyphon
-      - "8080"   # cAdvisor
+      # - "8080"   # cAdvisor
       - "5601"   # Kibana
       - "15672"  # RabbitMQ management plugin
 
