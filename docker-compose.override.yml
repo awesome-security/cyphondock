@@ -32,7 +32,7 @@ services:
       - "80:80"        # Cyclops
       - "443:443"      # Cyclops
       - "8000:8000"    # Cyphon
-      - "8080:8080"    # cAdvisor
+      # - "8080:8080"    # cAdvisor
       - "5601:5601"    # Kibana
       - "15672:15672"  # RabbitMQ management plugin
 
