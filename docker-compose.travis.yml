@@ -155,7 +155,7 @@ services:
     volumes_from:
       - cyphon
     links:
-      - cadvisor
+      # - cadvisor
       - cyphon
       - kibana
       - rabbit
